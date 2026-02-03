@@ -1,0 +1,747 @@
+/* ========================================
+   CSS Custom Properties (Variables)
+   ======================================== */
+:root {
+  /* Colors */
+  --color-gojo-blue: #00D9FF;
+  --color-cursed-purple: #8B00FF;
+  --color-dark-bg: #0A0A0F;
+  --color-dark-secondary: #1A1A2F;
+  --color-accent-red: #FF0040;
+  --color-text-light: #E8E8F0;
+  --color-white: #FFFFFF;
+
+  /* Fonts */
+  --font-title: 'Cinzel Decorative', serif;
+  --font-body: 'Montserrat', sans-serif;
+
+  /* Transitions */
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Effects */
+  --glow-blue: 0 0 20px rgba(0, 217, 255, 0.6),
+               0 0 40px rgba(0, 217, 255, 0.4),
+               0 0 60px rgba(0, 217, 255, 0.2);
+  --glow-purple: 0 0 30px rgba(139, 0, 255, 0.4),
+                 0 0 60px rgba(139, 0, 255, 0.2);
+  --glow-red: 0 0 20px rgba(255, 0, 64, 0.6),
+              0 0 40px rgba(255, 0, 64, 0.3);
+}
+
+/* ========================================
+   Global Resets & Base Styles
+   ======================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, var(--color-dark-bg) 0%, var(--color-dark-secondary) 100%);
+  color: var(--color-text-light);
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ========================================
+   Background Effects
+   ======================================== */
+.bg-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#particles-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Hex pattern overlay */
+.bg-effects::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 35px, rgba(0, 217, 255, 0.03) 35px, rgba(0, 217, 255, 0.03) 36px),
+    repeating-linear-gradient(60deg, transparent, transparent 35px, rgba(0, 217, 255, 0.03) 35px, rgba(0, 217, 255, 0.03) 36px),
+    repeating-linear-gradient(120deg, transparent, transparent 35px, rgba(0, 217, 255, 0.03) 35px, rgba(0, 217, 255, 0.03) 36px);
+  opacity: 0.5;
+}
+
+/* ========================================
+   Page Container
+   ======================================== */
+.page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  z-index: 1;
+}
+
+.page--active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.page__container {
+  width: 100%;
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* ========================================
+   Question Page - Character Section
+   ======================================== */
+.character {
+  position: relative;
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+.character__image-container {
+  position: relative;
+  width: 250px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+/* Actual Gojo Image */
+.character__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 3px solid rgba(0, 217, 255, 0.5);
+  box-shadow: var(--glow-blue);
+  position: relative;
+  z-index: 2;
+}
+
+/* CSS Placeholder for Gojo (if no image) */
+.character__placeholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(139, 0, 255, 0.1) 100%);
+  border-radius: 20px;
+  border: 3px solid rgba(0, 217, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gojo-eyes {
+  display: flex;
+  gap: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.eye {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-gojo-blue);
+  box-shadow: var(--glow-blue);
+  animation: eye-glow 2s ease-in-out infinite;
+}
+
+.blindfold {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--color-gojo-blue);
+  box-shadow: var(--glow-blue);
+  z-index: 1;
+}
+
+.character__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.3) 0%, transparent 70%);
+  animation: glow-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ========================================
+   Question Page - Title
+   ======================================== */
+.question-title {
+  font-family: var(--font-title);
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 3rem;
+  text-shadow: var(--glow-blue);
+  animation: title-float 4s ease-in-out infinite;
+  line-height: 1.2;
+}
+
+.question-title__line1,
+.question-title__line2 {
+  display: block;
+}
+
+.question-title__line2 {
+  background: linear-gradient(90deg, var(--color-gojo-blue), var(--color-cursed-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   Buttons Container
+   ======================================== */
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  min-height: 200px;
+}
+
+/* ========================================
+   Yes Button
+   ======================================== */
+.btn--yes {
+  position: relative;
+  width: 200px;
+  height: 80px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-white);
+  background: linear-gradient(135deg, var(--color-gojo-blue), #0099CC);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: var(--glow-blue);
+  font-family: var(--font-body);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.btn--yes:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(0, 217, 255, 0.8),
+              0 0 60px rgba(0, 217, 255, 0.6),
+              0 0 90px rgba(0, 217, 255, 0.4);
+}
+
+.btn--yes:active {
+  transform: scale(1.05);
+}
+
+.btn__text {
+  position: relative;
+  z-index: 2;
+}
+
+.btn__glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.btn--yes:hover .btn__glow {
+  opacity: 1;
+}
+
+/* ========================================
+   No Button
+   ======================================== */
+.btn--no {
+  position: absolute;
+  bottom: 0;
+  width: 90px;
+  height: 40px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-white);
+  background: linear-gradient(135deg, rgba(255, 0, 64, 0.8), rgba(200, 0, 50, 0.9));
+  border: 2px solid rgba(255, 0, 64, 0.6);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-family: var(--font-body);
+  box-shadow: 0 0 15px rgba(255, 0, 64, 0.5);
+  z-index: 5;
+}
+
+.btn--no:hover {
+  background: linear-gradient(135deg, rgba(255, 0, 64, 0.9), rgba(200, 0, 50, 1));
+  box-shadow: 0 0 25px rgba(255, 0, 64, 0.7);
+  transform: scale(1.05);
+}
+
+/* No button dynamic sizing classes (will be applied by JS) */
+.btn--no.size-75 {
+  width: 67px;
+  height: 30px;
+  font-size: 0.75rem;
+}
+
+.btn--no.size-50 {
+  width: 45px;
+  height: 20px;
+  font-size: 0.6rem;
+}
+
+.btn--no.size-25 {
+  width: 22px;
+  height: 10px;
+  font-size: 0.4rem;
+}
+
+.btn--no.invisible {
+  opacity: 0.1;
+}
+
+/* ========================================
+   Quote Display
+   ======================================== */
+.quote-display {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(139, 0, 255, 0.9);
+  border: 2px solid var(--color-cursed-purple);
+  border-radius: 15px;
+  padding: 1.5rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: var(--glow-purple);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.quote-display.active {
+  opacity: 1;
+  visibility: visible;
+  animation: quote-bounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ========================================
+   Celebration Page
+   ======================================== */
+#celebration-page {
+  background: linear-gradient(135deg,
+    var(--color-dark-bg) 0%,
+    rgba(139, 0, 255, 0.3) 50%,
+    var(--color-dark-secondary) 100%);
+}
+
+/* Domain Expansion Effect */
+.domain-expansion {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+}
+
+.domain-expansion.active {
+  animation: domain-expand 2s ease-out forwards;
+}
+
+.hex-pattern {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 35px, var(--color-gojo-blue) 35px, var(--color-gojo-blue) 38px),
+    repeating-linear-gradient(60deg, transparent, transparent 35px, var(--color-gojo-blue) 35px, var(--color-gojo-blue) 38px),
+    repeating-linear-gradient(120deg, transparent, transparent 35px, var(--color-gojo-blue) 35px, var(--color-gojo-blue) 38px);
+}
+
+/* Celebration Content */
+.celebration {
+  position: relative;
+  z-index: 2;
+}
+
+.celebration__title {
+  font-family: var(--font-title);
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+  text-shadow: var(--glow-blue);
+  animation: celebration-bounce 1s ease-out 0.5s both;
+  line-height: 1.2;
+}
+
+.celebration__title-line1,
+.celebration__title-line2 {
+  display: block;
+}
+
+.celebration__title-line2 {
+  background: linear-gradient(90deg, var(--color-gojo-blue), var(--color-accent-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.celebration__image {
+  margin: 2rem auto;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.celebration__gif {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.8));
+  animation: fade-in 1s ease-out 0.5s both;
+}
+
+.infinity-symbol {
+  width: 150px;
+  height: 75px;
+  color: var(--color-gojo-blue);
+  filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.8));
+  animation: infinity-spin 8s linear infinite;
+}
+
+.celebration__quote {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2rem 0;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+  animation: fade-in 1s ease-out 1s both;
+}
+
+.celebration__subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  color: var(--color-accent-red);
+  text-shadow: var(--glow-red);
+  animation: fade-in 1s ease-out 1.5s both;
+}
+
+/* ========================================
+   Hearts Container
+   ======================================== */
+.hearts-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.heart {
+  position: absolute;
+  font-size: 2rem;
+  animation: fall linear forwards;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+}
+
+.heart.burst {
+  animation: burst 0.5s ease-out forwards;
+}
+
+/* Cursor Trail Canvas */
+.cursor-trail-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========================================
+   Animations & Keyframes
+   ======================================== */
+@keyframes eye-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 217, 255, 1);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes title-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes quote-bounce {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes domain-expand {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(20) rotate(180deg);
+  }
+}
+
+@keyframes celebration-bounce {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes infinity-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes burst {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   Responsive Design - Mobile
+   ======================================== */
+@media (max-width: 767px) {
+  .page__container {
+    padding: 1rem;
+  }
+
+  .character__image-container {
+    width: 180px;
+    height: 220px;
+  }
+
+  .character__glow {
+    width: 220px;
+    height: 260px;
+  }
+
+  .question-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .buttons-container {
+    min-height: 180px;
+    gap: 1.5rem;
+  }
+
+  .btn--yes {
+    width: 160px;
+    height: 60px;
+    font-size: 1.25rem;
+  }
+
+  .btn--no {
+    width: 75px;
+    height: 35px;
+    font-size: 0.8rem;
+  }
+
+  .quote-display {
+    max-width: 90%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .celebration__title {
+    font-size: 2.5rem;
+  }
+
+  .celebration__quote {
+    font-size: 1.2rem;
+  }
+
+  .celebration__subtitle {
+    font-size: 1rem;
+  }
+
+  .heart {
+    font-size: 1.5rem;
+  }
+
+  /* Reduce particle count on mobile - handled by JS */
+}
+
+@media (max-width: 480px) {
+  .question-title {
+    font-size: 1.5rem;
+  }
+
+  .btn--yes {
+    width: 140px;
+    height: 50px;
+    font-size: 1.1rem;
+  }
+
+  .celebration__title {
+    font-size: 2rem;
+  }
+
+  .celebration__quote {
+    font-size: 1rem;
+  }
+}
+
+/* ========================================
+   Accessibility - Reduced Motion
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   Focus Styles (Keyboard Navigation)
+   ======================================== */
+.btn:focus-visible {
+  outline: 3px solid var(--color-gojo-blue);
+  outline-offset: 4px;
+}
+
+.btn--yes:focus-visible {
+  outline-color: var(--color-gojo-blue);
+}
+
+.btn--no:focus-visible {
+  outline-color: var(--color-text-light);
+}

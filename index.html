@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine? 💙 | Gojo's Domain of Love</title>
+
+  <!-- Meta tags for social sharing -->
+  <meta property="og:title" content="Will you be my valentine?">
+  <meta property="og:description" content="A special JJK-themed valentine request">
+  <meta name="description" content="A Jujutsu Kaisen themed Valentine's Day surprise">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💙</text></svg>">
+</head>
+
+<body>
+  <!-- Background Effects Container -->
+  <div id="bg-effects" class="bg-effects">
+    <canvas id="particles-canvas"></canvas>
+  </div>
+
+  <!-- Question Page -->
+  <div id="question-page" class="page page--active">
+    <div class="page__container">
+      <!-- Gojo Character Section -->
+      <div class="character">
+        <div class="character__image-container">
+          <img src="assets/images/gojo.jpg" alt="Gojo Satoru" class="character__image">
+          <div class="character__glow"></div>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <h1 class="question-title">
+        <span class="question-title__line1">Can you be</span>
+        <span class="question-title__line2">my valentine?</span>
+      </h1>
+
+      <!-- Buttons -->
+      <div class="buttons-container">
+        <button id="yes-btn" class="btn btn--yes" aria-label="Yes, I will be your valentine">
+          <span class="btn__text">YES! 💙</span>
+          <span class="btn__glow"></span>
+        </button>
+
+        <button id="no-btn" class="btn btn--no" aria-label="No button - but you really should say yes!">
+          no
+        </button>
+      </div>
+
+      <!-- Quote Display -->
+      <div id="quote-display" class="quote-display" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- Celebration Page -->
+  <div id="celebration-page" class="page">
+    <div class="page__container">
+      <!-- Domain Expansion Effect -->
+      <div id="domain-expansion" class="domain-expansion">
+        <div class="hex-pattern"></div>
+      </div>
+
+      <!-- Celebration Content -->
+      <div class="celebration">
+        <h1 class="celebration__title">
+          <span class="celebration__title-line1">I KNEW YOU'D</span>
+          <span class="celebration__title-line2">SAY YES! 💙</span>
+        </h1>
+
+        <div class="celebration__image">
+          <img src="assets/images/gojo_celebration.gif" alt="Gojo Domain Expansion" class="celebration__gif">
+        </div>
+
+        <p class="celebration__quote">
+          "Throughout Heaven and Earth,<br>
+          You are my honored one"
+        </p>
+
+        <div class="celebration__subtitle">
+          Happy Valentine's Day! ✨
+        </div>
+      </div>
+
+      <!-- Interactive Hearts Container -->
+      <div id="hearts-container" class="hearts-container"></div>
+
+      <!-- Cursor Trail Canvas -->
+      <canvas id="cursor-trail-canvas" class="cursor-trail-canvas"></canvas>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="scripts/app.js"></script>
+</body>
+</html>
